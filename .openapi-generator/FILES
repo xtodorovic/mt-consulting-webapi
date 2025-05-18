@@ -1,0 +1,5 @@
+internal/consulting/README.md
+internal/consulting/api_requests_list.go
+internal/consulting/model_condition.go
+internal/consulting/model_waiting_list_entry.go
+internal/consulting/routers.go
