@@ -1,0 +1,74 @@
+openapi: 3.0.0
+servers:
+  - description: Cluster Endpoint
+    url: /api
+
+info:
+  title: Consultation Edit API
+  description: Allows editing of a consultation request (e.g., assigning time and video link)
+  version: "1.0.0"
+  contact:
+    email: xtodorovic@stuba.sk
+  license:
+    name: CC BY 4.0
+    url: "https://creativecommons.org/licenses/by/4.0/"
+
+tags:
+  - name: consultationEdit
+    description: Consultation editing API
+
+paths:
+  "/consultation-form/{requestId}":
+    patch:
+      tags:
+        - consultationEdit
+      summary: Update consultation with time and video link
+      operationId: updateConsultation
+      parameters:
+        - in: path
+          name: requestId
+          required: true
+          description: ID of the consultation request
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConsultationUpdate"
+            examples:
+              example:
+                value:
+                  scheduledDate: "2025-06-01"
+                  scheduledTime: "14:30"
+                  videoLink: "https://meet.example.com/xyz123"
+      responses:
+        "200":
+          description: Consultation successfully updated
+        "404":
+          description: Consultation not found
+        "400":
+          description: Invalid data
+
+components:
+  schemas:
+    ConsultationUpdate:
+      type: object
+      required:
+        - scheduledDate
+        - scheduledTime
+        - videoLink
+      properties:
+        scheduledDate:
+          type: string
+          format: date
+          example: "2025-06-01"
+        scheduledTime:
+          type: string
+          pattern: "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
+          example: "14:30"
+        videoLink:
+          type: string
+          format: uri
+          example: "https://meet.example.com/xyz123"
