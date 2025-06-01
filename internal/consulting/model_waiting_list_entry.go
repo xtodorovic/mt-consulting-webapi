@@ -33,6 +33,4 @@ type WaitingListEntry struct {
 
 	// Estimated duration of ambulance visit. If not provided then it will be computed based on condition and ambulance settings
 	EstimatedDurationMinutes int32 `json:"estimatedDurationMinutes"`
-
-	Condition Condition `json:"condition,omitempty"`
 }

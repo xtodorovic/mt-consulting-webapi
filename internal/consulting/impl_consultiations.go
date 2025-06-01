@@ -33,7 +33,7 @@ func (o implConsultationsAPI) DeleteConsultation(c *gin.Context) {
 		return
 	}
 
-	db, ok := value.(db_service.DbService[ConsultingForm])
+	db, ok := value.(db_service.DbService[Consultation])
 	if !ok {
 		c.JSON(
 			http.StatusInternalServerError,
@@ -84,7 +84,7 @@ func (o implConsultationsAPI) SubmitConsultingForm(c *gin.Context) {
 		return
 	}
 
-	db, ok := value.(db_service.DbService[ConsultingForm])
+	db, ok := value.(db_service.DbService[Consultation])
 	if !ok {
 		c.JSON(
 			http.StatusInternalServerError,
@@ -95,7 +95,7 @@ func (o implConsultationsAPI) SubmitConsultingForm(c *gin.Context) {
 			})
 		return
 	}
-	form := ConsultingForm{}
+	form := Consultation{}
 	err := c.BindJSON(&form)
 	if err != nil {
 		c.JSON(

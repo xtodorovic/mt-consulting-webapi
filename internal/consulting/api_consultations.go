@@ -17,7 +17,7 @@ import (
 type ConsultationsAPI interface {
 
 
-    // DeleteConsultation Delete /api/consultation-form/:requestId/delete
+    // DeleteConsultation Delete /api/consultation/:requestId/delete
     // Delete consultation 
      DeleteConsultation(c *gin.Context)
 
@@ -25,11 +25,11 @@ type ConsultationsAPI interface {
     // Provides the requests list 
      GetRequestsListEntries(c *gin.Context)
 
-    // SubmitConsultingForm Post /api/consulting-form
+    // SubmitConsultingForm Post /api/consultation
     // Submit a new consultation request 
      SubmitConsultingForm(c *gin.Context)
 
-    // UpdateConsultation Patch /api/consultation-form/:requestId
+    // UpdateConsultation Patch /api/consultation/:requestId/edit
     // Update consultation with time and video link 
      UpdateConsultation(c *gin.Context)
 

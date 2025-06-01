@@ -10,7 +10,7 @@
 
 package consulting
 
-type ConsultingForm struct {
+type Consultation struct {
 
 	// Unique identifier for the consultation request
 	Id string `json:"id"`
@@ -20,4 +20,10 @@ type ConsultingForm struct {
 	Email string `json:"email"`
 
 	Symptoms string `json:"symptoms"`
+
+	VideoLink string `json:"videoLink,omitempty"`
+
+	ScheduledDate string `json:"scheduledDate,omitempty"`
+
+	ScheduledTime string `json:"scheduledTime,omitempty" validate:"regexp=^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"`
 }

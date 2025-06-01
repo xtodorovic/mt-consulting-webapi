@@ -72,7 +72,7 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 		{
 			"DeleteConsultation",
 			http.MethodDelete,
-			"/api/consultation-form/:requestId/delete",
+			"/api/consultation/:requestId/delete",
 			handleFunctions.ConsultationsAPI.DeleteConsultation,
 		},
 		{
@@ -84,13 +84,13 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 		{
 			"SubmitConsultingForm",
 			http.MethodPost,
-			"/api/consulting-form",
+			"/api/consultation",
 			handleFunctions.ConsultationsAPI.SubmitConsultingForm,
 		},
 		{
 			"UpdateConsultation",
 			http.MethodPatch,
-			"/api/consultation-form/:requestId",
+			"/api/consultation/:requestId/edit",
 			handleFunctions.ConsultationsAPI.UpdateConsultation,
 		},
 	}

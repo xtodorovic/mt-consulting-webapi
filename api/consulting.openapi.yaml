@@ -46,7 +46,7 @@ paths:
         "404":
           description: Ambulance with such ID does not exist
 
-  "/consulting-form":
+  "/consultation":
     post:
       tags:
         - consultations
@@ -57,7 +57,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ConsultingForm'
+              $ref: '#/components/schemas/Consultation'
             examples:
               sample:
                 value:
@@ -70,7 +70,7 @@ paths:
         "400":
           description: Invalid input
 
-  "/consultation-form/{requestId}":
+  "/consultation/{requestId}/edit":
     patch:
       tags:
         - consultations
@@ -102,7 +102,7 @@ paths:
           description: Consultation not found
         "400":
           description: Invalid data
-  "/consultation-form/{requestId}/delete":
+  "/consultation/{requestId}/delete":
     delete:
       tags:
         - consultations
@@ -147,7 +147,7 @@ components:
           type: string
           format: uri
           example: "https://meet.example.com/xyz123"
-    ConsultingForm:
+    Consultation:
       type: object
       required:
         - id
@@ -169,6 +169,18 @@ components:
         symptoms:
           type: string
           example: Persistent headache and dizziness
+        videoLink:
+          type: string
+          format: uri
+          example: "https://meet.example.com/xyz123"
+        scheduledDate:
+          type: string
+          format: date
+          example: "2025-06-01"
+        scheduledTime:
+          type: string
+          pattern: "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
+          example: "14:30"
     WaitingListEntry:
       type: object
       required: [id, patientId, waitingSince, estimatedDurationMinutes]
@@ -202,32 +214,9 @@ components:
           description: >-
             Estimated duration of ambulance visit. If not provided then it will
             be computed based on condition and ambulance settings
-        condition:
-          $ref: "#/components/schemas/Condition"
+
       example:
         $ref: "#/components/examples/WaitingListEntryExample"
-    Condition:
-      description: "Describes disease, symptoms, or other reasons of patient   visit"
-      required:
-        - value
-      properties:
-        value:
-          type: string
-          example: Teploty
-        code:
-          type: string
-          example: subfebrilia
-        reference:
-          type: string
-          format: url
-          example: "https://zdravoteka.sk/priznaky/zvysena-telesna-teplota/"
-          description: Link to encyclopedical explanation of the patient's condition
-        typicalDurationMinutes:
-          type: integer
-          format: int32
-          example: 20
-      example:
-        $ref: "#/components/examples/ConditionExample"
   examples:
     WaitingListEntryExample:
       summary: Ľudomír Zlostný waiting
@@ -241,18 +230,6 @@ components:
         waitingSince: "2038-12-24T10:05:00.000Z"
         estimatedStart: "2038-12-24T10:35:00.000Z"
         estimatedDurationMinutes: 15
-        condition:
-          value: Nevoľnosť
-          code: nausea
-          reference: "https://zdravoteka.sk/priznaky/nevolnost/"
-    ConditionExample:
-      summary: Conditions and symptoms
-      description: list of few symptoms that can be chosen by patients
-      value:
-        valuee: Teploty
-        code: subfebrilia
-        reference: >-
-          https://zdravoteka.sk/priznaky/zvysena-telesna-teplota/
     WaitingListEntriesExample:
       summary: List of waiting patients
       description: |
@@ -264,17 +241,9 @@ components:
         waitingSince: "2038-12-24T10:05:00.000Z"
         estimatedStart: "2038-12-24T10:35:00.000Z"
         estimatedDurationMinutes: 15
-        condition:
-          value: Teploty
-          code: subfebrilia
-          reference: "https://zdravoteka.sk/priznaky/zvysena-telesna-teplota/"
       - id: x321ab4
         name: Ferdinand Trety
         patientId: 780907-ferdinand-tre
         waitingSince: "2038-12-24T10:25:00.000Z"
         estimatedStart: "2038-12-24T10:50:00.000Z"
         estimatedDurationMinutes: 25
-        condition:
-          value: Nevoľnosť
-          code: nausea
-          reference: "https://zdravoteka.sk/priznaky/nevolnost/"
