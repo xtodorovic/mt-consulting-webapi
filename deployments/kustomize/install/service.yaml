@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: mt-consulting-webapi
+spec:
+  selector:
+    pod: mt-consulting-webapi-label
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: webapi-port

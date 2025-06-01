@@ -1,7 +1,7 @@
 /*
  * Waiting List Api
  *
- * Consulting Waiting List management for Web-In-Cloud system
+ * Consulting List management for Web-In-Cloud system
  *
  * API version: 1.0.0
  * Contact: xtodorovic@stuba.sk

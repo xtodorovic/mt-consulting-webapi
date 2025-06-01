@@ -1,7 +1,7 @@
 /*
  * Waiting List Api
  *
- * Consulting Waiting List management for Web-In-Cloud system
+ * Consulting List management for Web-In-Cloud system
  *
  * API version: 1.0.0
  * Contact: xtodorovic@stuba.sk
@@ -63,17 +63,35 @@ func DefaultHandleFunc(c *gin.Context) {
 
 type ApiHandleFunctions struct {
 
-	// Routes for the RequestsListAPI part of the API
-	RequestsListAPI RequestsListAPI
+	// Routes for the ConsultationsAPI part of the API
+	ConsultationsAPI ConsultationsAPI
 }
 
 func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 	return []Route{ 
 		{
+			"DeleteConsultation",
+			http.MethodDelete,
+			"/api/consultation-form/:requestId/delete",
+			handleFunctions.ConsultationsAPI.DeleteConsultation,
+		},
+		{
 			"GetRequestsListEntries",
 			http.MethodGet,
 			"/api/requests-list/:requestId/entries",
-			handleFunctions.RequestsListAPI.GetRequestsListEntries,
+			handleFunctions.ConsultationsAPI.GetRequestsListEntries,
+		},
+		{
+			"SubmitConsultingForm",
+			http.MethodPost,
+			"/api/consulting-form",
+			handleFunctions.ConsultationsAPI.SubmitConsultingForm,
+		},
+		{
+			"UpdateConsultation",
+			http.MethodPatch,
+			"/api/consultation-form/:requestId",
+			handleFunctions.ConsultationsAPI.UpdateConsultation,
 		},
 	}
 }

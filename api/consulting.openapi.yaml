@@ -3,7 +3,7 @@ servers:
   - description: Cluster Endpoint
     url: /api
 info:
-  description: Consulting Waiting List management for Web-In-Cloud system
+  description: Consulting List management for Web-In-Cloud system
   version: "1.0.0"
   title: Waiting List Api
   contact:
@@ -12,14 +12,15 @@ info:
     name: CC BY 4.0
     url: "https://creativecommons.org/licenses/by/4.0/"
 tags:
-- name: consultingList
-  description: Consulting Waiting List API
+- name: consultations
+  description: Consulting 
+
 
 paths:
   "/requests-list/{requestId}/entries":
     get:
       tags:
-        - requestsList
+        - consultations
       summary: Provides the requests list
       operationId: getRequestsListEntries
       description: By using requestId you get list of entries in ambulance waiting list
@@ -45,8 +46,129 @@ paths:
         "404":
           description: Ambulance with such ID does not exist
 
+  "/consulting-form":
+    post:
+      tags:
+        - consultations
+      summary: Submit a new consultation request
+      operationId: submitConsultingForm
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsultingForm'
+            examples:
+              sample:
+                value:
+                  name: John Doe
+                  email: john@example.com
+                  symptoms: Fatigue and nausea
+      responses:
+        "201":
+          description: Consultation request successfully submitted
+        "400":
+          description: Invalid input
+
+  "/consultation-form/{requestId}":
+    patch:
+      tags:
+        - consultations
+      summary: Update consultation with time and video link
+      operationId: updateConsultation
+      parameters:
+        - in: path
+          name: requestId
+          required: true
+          description: ID of the consultation request
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConsultationUpdate"
+            examples:
+              example:
+                value:
+                  scheduledDate: "2025-06-01"
+                  scheduledTime: "14:30"
+                  videoLink: "https://meet.example.com/xyz123"
+      responses:
+        "200":
+          description: Consultation successfully updated
+        "404":
+          description: Consultation not found
+        "400":
+          description: Invalid data
+  "/consultation-form/{requestId}/delete":
+    delete:
+      tags:
+        - consultations
+      summary: Delete consultation
+      operationId: deleteConsultation
+      parameters:
+        - in: path
+          name: requestId
+          required: true
+          description: ID of the consultation request
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Consultation successfully deleted
+        "404":
+          description: Consultation not found
+
 components:
   schemas:
+    ConsultationUpdate:
+      type: object
+      required:
+        - id
+        - scheduledDate
+        - scheduledTime
+        - videoLink
+      properties:
+        id:
+          type: string
+          example: "12345"
+          description: Unique identifier of the consultation request
+        scheduledDate:
+          type: string
+          format: date
+          example: "2025-06-01"
+        scheduledTime:
+          type: string
+          pattern: "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
+          example: "14:30"
+        videoLink:
+          type: string
+          format: uri
+          example: "https://meet.example.com/xyz123"
+    ConsultingForm:
+      type: object
+      required:
+        - id
+        - name
+        - email
+        - symptoms
+      properties:
+        id:
+          type: string
+          example: "12345"
+          description: Unique identifier for the consultation request
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          format: email
+          example: john@example.com
+        symptoms:
+          type: string
+          example: Persistent headache and dizziness
     WaitingListEntry:
       type: object
       required: [id, patientId, waitingSince, estimatedDurationMinutes]
