@@ -55,8 +55,8 @@ spec:
             memory: "256Mi"
             cpu: "0.1"
       containers:
-      - name: mt-consulting-wl-webapi-container
-        image: xtodorovicm/ambulance-wl-webapi:latest
+      - name: mt-consulting-webapi-container
+        image: xtodorovicm/mt-consulting-webapi:latest
         imagePullPolicy: Always
         ports:
         - name: webapi-port

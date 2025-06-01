@@ -44,14 +44,11 @@ db[collection].createIndex({ "id": 1 })
 //insert sample data
 let result = db[collection].insertMany([
     {
-        "id": "bobulova",
-        "name": "Dr.Bobulová",
-        "roomNumber": "123",
-        "predefinedConditions": [
-            { "value": "Nádcha", "code": "rhinitis" },
-            { "value": "Kontrola", "code": "checkup" }
-        ]
-    }
+        "id": "482db9af-511c-4baf-a2d9-549965790cbc",
+        "name":"Miroslav Todor",
+        "email":"miro@gmail.com",
+        "symptoms": "Fatigue and nausea"
+    },
 ]);
 
 if (result.writeError) {
