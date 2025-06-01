@@ -33,7 +33,7 @@ case "$command" in
         docker run --rm -ti -v "${ProjectRoot}:/local" openapitools/openapi-generator-cli generate -c /local/scripts/generator-cfg.yaml
         ;;
     docker)
-        docker build -t xtodorovicm/ambulance-wl-webapi:local-build -f "${ProjectRoot}/build/docker/Dockerfile" .
+        docker build -t xtodorovicm/mt-consulting-webapi:local-build -f "${ProjectRoot}/build/docker/Dockerfile" .
         ;;
     *)
         echo "Unknown command: $command" >&2

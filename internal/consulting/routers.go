@@ -76,9 +76,15 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 			handleFunctions.ConsultationsAPI.DeleteConsultation,
 		},
 		{
+			"GetAllRequestsListEntries",
+			http.MethodGet,
+			"/api/consultations-list",
+			handleFunctions.ConsultationsAPI.GetAllRequestsListEntries,
+		},
+		{
 			"GetRequestsListEntries",
 			http.MethodGet,
-			"/api/requests-list/:requestId/entries",
+			"/api/consultations-list/:requestId",
 			handleFunctions.ConsultationsAPI.GetRequestsListEntries,
 		},
 		{

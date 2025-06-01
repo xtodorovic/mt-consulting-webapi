@@ -21,7 +21,11 @@ type ConsultationsAPI interface {
     // Delete consultation 
      DeleteConsultation(c *gin.Context)
 
-    // GetRequestsListEntries Get /api/requests-list/:requestId/entries
+    // GetAllRequestsListEntries Get /api/consultations-list
+    // Provides the requests list 
+     GetAllRequestsListEntries(c *gin.Context)
+
+    // GetRequestsListEntries Get /api/consultations-list/:requestId
     // Provides the requests list 
      GetRequestsListEntries(c *gin.Context)
 

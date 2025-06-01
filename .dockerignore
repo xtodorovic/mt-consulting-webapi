@@ -1,0 +1,5 @@
+internal/consulting/api_*
+internal/consulting/model_*
+internal/consulting/routers.go
+build/
+deployments/

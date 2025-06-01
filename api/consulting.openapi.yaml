@@ -17,13 +17,13 @@ tags:
 
 
 paths:
-  "/requests-list/{requestId}/entries":
+  "/consultations-list/{requestId}":
     get:
       tags:
         - consultations
       summary: Provides the requests list
       operationId: getRequestsListEntries
-      description: By using requestId you get list of entries in ambulance waiting list
+      description: By using requestId you get list of entries in waiting list
       parameters:
         - in: path
           name: requestId
@@ -69,7 +69,27 @@ paths:
           description: Consultation request successfully submitted
         "400":
           description: Invalid input
-
+  "/consultations-list":
+    get:
+      tags:
+        - consultations
+      summary: Provides the requests list
+      operationId: getAllRequestsListEntries
+      description: Get list of all entries in ambulance waiting list
+      responses:
+        "200":
+          description: value of the list entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/WaitingListEntry"
+              examples:
+                response:
+                  $ref: "#/components/examples/WaitingListEntriesExample"
+        "404":
+          description: Does not exist
   "/consultation/{requestId}/edit":
     patch:
       tags:
