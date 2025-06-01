@@ -31,11 +31,11 @@ jobs:
       uses: craicoverflow/openapi-generator-generate-action@v1.2.1
       with:
         generator: go-gin-server
-        input: api/ambulance-wl.openapi.yaml
-        additional-properties: apiPath=internal/ambulance_wl,packageName=ambulance_wl,interfaceOnly=true
+        input: api/consulting.openapi.yaml
+        additional-properties: apiPath=internal/consulting,packageName=consulting,interfaceOnly=true
         
     - name: Build
-      run: go build -v ./cmd/ambulance-api-service
+      run: go build -v ./cmd/api-service
 
     - name: Test
       run: go test -v ./...
@@ -54,7 +54,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@v5.7.0
       with:
-        images: xtodorovicm/ambulance-wl-webapi
+        images: xtodorovicm/mt-consulting-webapi
         tags: |
           type=schedule
           type=ref,event=branch
