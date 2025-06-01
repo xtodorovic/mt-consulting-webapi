@@ -141,5 +141,52 @@ func (o implConsultationsAPI) SubmitConsultingForm(c *gin.Context) {
 }
 
 func (o implConsultationsAPI) GetRequestsListEntries(c *gin.Context) {
-	c.AbortWithStatus(http.StatusNotImplemented)
+	value, exists := c.Get("db_service")
+	if !exists {
+		c.JSON(
+			http.StatusInternalServerError,
+			gin.H{
+				"status":  "Internal Server Error",
+				"message": "db_service not found",
+				"error":   "db_service not found",
+			})
+		return
+	}
+
+	db, ok := value.(db_service.DbService[Consultation])
+	if !ok {
+		c.JSON(
+			http.StatusInternalServerError,
+			gin.H{
+				"status":  "Internal Server Error",
+				"message": "db_service context is not of type db_service.DbService",
+				"error":   "cannot cast db_service context to db_service.DbService",
+			})
+		return
+	}
+
+	entries, err := db.ListDocuments(c)
+
+	switch err {
+	case nil:
+		c.JSON(http.StatusOK, entries)
+	case db_service.ErrNotFound:
+		c.JSON(
+			http.StatusNotFound,
+			gin.H{
+				"status":  "Not Found",
+				"message": "No consultation requests found",
+				"error":   err.Error(),
+			},
+		)
+	default:
+		c.JSON(
+			http.StatusBadGateway,
+			gin.H{
+				"status":  "Bad Gateway",
+				"message": "Failed to fetch consultation requests from database",
+				"error":   err.Error(),
+			},
+		)
+	}
 }

@@ -243,3 +243,32 @@ func (m *mongoSvc[DocType]) DeleteDocument(ctx context.Context, id string) error
 	_, err = collection.DeleteOne(ctx, bson.D{{Key: "id", Value: id}})
 	return err
 }
+
+func (m *mongoSvc[DocType]) ListDocuments(ctx context.Context) ([]DocType, error) {
+	ctx, contextCancel := context.WithTimeout(ctx, m.Timeout)
+	defer contextCancel()
+	client, err := m.connect(ctx)
+	if err != nil {
+		return nil, err
+	}
+	db := client.Database(m.DbName)
+	collection := db.Collection(m.Collection)
+	cursor, err := collection.Find(ctx, bson.D{})
+	if err != nil {
+		return nil, err
+	}
+	defer cursor.Close(ctx)
+
+	var documents []DocType
+	for cursor.Next(ctx) {
+		var document DocType
+		if err := cursor.Decode(&document); err != nil {
+			return nil, err
+		}
+		documents = append(documents, document)
+	}
+	if err := cursor.Err(); err != nil {
+		return nil, err
+	}
+	return documents, nil
+}
