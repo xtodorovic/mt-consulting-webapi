@@ -21,6 +21,7 @@ type DbService[DocType interface{}] interface {
 	UpdateDocument(ctx context.Context, id string, document *DocType) error
 	DeleteDocument(ctx context.Context, id string) error
 	Disconnect(ctx context.Context) error
+	ListDocuments(ctx context.Context) ([]DocType, error)
 }
 
 var ErrNotFound = fmt.Errorf("document not found")
